@@ -11,3 +11,11 @@ end
 get "/hello/:name" do
   "Hello there #{params[:name]}"
 end
+
+get "/hello/:name/:city" do
+  "Hello there #{params[:name]} from #{params[:city]}"
+end
+
+get "/splat/*" do
+  params[:splat]
+end
