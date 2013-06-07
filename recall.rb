@@ -29,8 +29,29 @@ post "/" do
   redirect "/"
 end
 
-get '/:id' do
-  @note = Note.get(params[:id].to_i)
+get "/:id" do
+  @note = Note.get params[:id].to_i
   @title = "Edit note ##{params[:id]}"
   erb :edit
+end
+
+put "/:id" do
+  n = Note.get params[:id].to_i
+  n.content = params[:content]
+  n.complete = params[:complete] ? 1 : 0
+  n.updated_at = Time.now
+  n.save
+  redirect "/"
+end
+
+get "/:id/delete" do
+  @note = Note.get params[:id].to_i
+  @title = "Confirm deletion of not ##{params[:id]}"
+  erb :delete
+end
+
+delete "/:id" do
+  n = Note.get params[:id].to_i
+  n.destroy
+  redirect "/"
 end
