@@ -1,7 +1,7 @@
 require "sinatra"
 require "data_mapper"
 
-DataMapper::setup(:default, "sqlite://#{Dir.pwd}/recall.db")
+DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/recall.db")
 
 class Note
   include DataMapper::Resource
@@ -27,4 +27,10 @@ post "/" do
   n.updated_at = Time.now
   n.save
   redirect "/"
+end
+
+get '/:id' do
+  @note = Note.get(params[:id].to_i)
+  @title = "Edit note ##{params[:id]}"
+  erb :edit
 end
